@@ -1,0 +1,48 @@
+import requests
+import os
+import urllib3
+urllib3.disable_warnings()
+
+
+def fetch_spacex_last_launch():
+  path = 'images'
+  url = 'https://api.spacexdata.com/v3/launches/latest?filter=links/flickr_images'
+  if  not os.path.exists(path):
+    os.makedirs(path)
+  response = requests.get(url)
+  response.raise_for_status()
+  response = response.json()
+  links = response.get('links')
+  flickr_images = links.get('flickr_images')
+  for number, url in enumerate(flickr_images, 1):
+    response = requests.get(url)
+    response.raise_for_status()
+    filname = f'spacex{number}.jpg'
+    with open(os.path.join(path, filname), 'wb') as file:
+      file.write(response.content)
+
+
+def get_photo_hubble(id):
+  path = 'images'
+  url = f'http://hubblesite.org/api/v3/image/{id}'
+  response = requests.get(url)
+  response.raise_for_status()
+  response = response.json()
+  image_files = response.get('image_files')
+  url_photo = f"https:{image_files[-1]['file_url']}"
+  file_extension = url_photo.split('.')[-1]
+  filname = f'{id}.{file_extension}'
+  response = requests.get(url_photo, verify=False)
+  response.raise_for_status()
+  with open(os.path.join(path, filname), 'wb') as file:
+    file.write(response.content)
+
+
+
+def main():
+  #fetch_spacex_last_launch(path)
+  get_photo_hubble(1)
+
+
+if __name__ == '__main__':
+  main()
