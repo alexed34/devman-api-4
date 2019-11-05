@@ -23,15 +23,17 @@ def load_img_insta(user_name, pass_word): # отправляем все фото
     imgs = os.listdir('image2')
     bot = Bot()
     bot.login(username=user_name, password=pass_word)
+
+    print('пароль')
     for img in imgs:
         bot.upload_photo(f'image2/{img}')
 
 def main():
   load_dotenv()
-  user_name = os.environ['username']
+  user_name = os.environ['username2'] # если написать 'username' то передается имя компа, непонятно почему так
   pass_word = os.environ['password']
 
-  list_img()
+  #list_img()
   load_img_insta(user_name, pass_word)
 
 
