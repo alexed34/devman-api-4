@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 
 def list_img(): # выбираем  фото в папке, обрезаем и сохраняем
     imgs = os.listdir('images')
+    if  not os.path.exists('image2'):
+        os.makedirs('image2')
     for img in imgs:
       image = Image.open(f'images/{img}')
       width = image.width
@@ -14,11 +16,6 @@ def list_img(): # выбираем  фото в папке, обрезаем и 
       cropped = image.crop(coordinates)
       cropped.save(f"image2/n{img}")
       print(img)
-
-def insta_bot(user_name, pass_word): # отправляем одно фото
-    bot = Bot()
-    bot.login(user_name, pass_word)
-    bot.upload_photo('image2/nspacex1.jpg')
 
 
 def load_img_insta(user_name, pass_word): # отправляем все фото
@@ -34,7 +31,6 @@ def main():
   pass_word = os.environ['password']
 
   list_img()
-  #insta_bot(username, password) # отправляем одно фото
   load_img_insta(user_name, pass_word)
 
 
