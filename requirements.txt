@@ -1,5 +1,6 @@
 instabot==0.4.5
-python-dotenv
+python-doteillow
 Pillow
 requests
 urllib3
+dotenv
