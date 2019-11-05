@@ -1,4 +1,5 @@
 from PIL import Image
+import os
 from instabot import Bot
 from dotenv import load_dotenv
 
