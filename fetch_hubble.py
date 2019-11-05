@@ -33,3 +33,6 @@ def get_img_habbl(name): # создаем список фото из колле�
 def main():
   get_img_habbl('wallpaper')
 
+if __name__ == '__main__':
+    main()
+

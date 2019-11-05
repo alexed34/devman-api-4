@@ -21,6 +21,9 @@ def fetch_spacex_last_launch():
       file.write(response.content)
  
 def main():
-  fetch_spacex_last_launch():
+  fetch_spacex_last_launch()
+
+if __name__ == '__main__':
+    main()
 
 
