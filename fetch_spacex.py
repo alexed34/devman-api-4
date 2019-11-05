@@ -19,3 +19,9 @@ def fetch_spacex_last_launch():
     filname = f'spacex{number}.jpg'
     with open(os.path.join(path, filname), 'wb') as file:
       file.write(response.content)
+ 
+def main():
+  fetch_spacex_last_launch():
+
+if __name__ == '__main__':
+  main()
