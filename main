@@ -1,47 +1,41 @@
-import requests
-import os
-import urllib3
-urllib3.disable_warnings()
+from PIL import Image
+from instabot import Bot
+from dotenv import load_dotenv
+
+def list_img(): # выбираем  фото в папке, обрезаем и сохраняем
+    imgs = os.listdir('images')
+    for img in imgs:
+      image = Image.open(f'images/{img}')
+      width = image.width
+      height = image.height
+      cordionate1 = (width - height) / 2
+      cordionate2 = cordionate1 + height
+      coordinates = (cordionate1, 0, cordionate2, height)
+      cropped = image.crop(coordinates)
+      cropped.save(f"image2/n{img}")
+      print(img)
+
+def insta_bot(user_name, pass_word): # отправляем одно фото
+    bot = Bot()
+    bot.login(user_name, pass_word)
+    bot.upload_photo('image2/nspacex1.jpg')
 
 
-def fetch_spacex_last_launch():
-  path = 'images'
-  url = 'https://api.spacexdata.com/v3/launches/latest?filter=links/flickr_images'
-  if  not os.path.exists(path):
-    os.makedirs(path)
-  response = requests.get(url)
-  response.raise_for_status()
-  response = response.json()
-  links = response.get('links')
-  flickr_images = links.get('flickr_images')
-  for number, url in enumerate(flickr_images, 1):
-    response = requests.get(url)
-    response.raise_for_status()
-    filname = f'spacex{number}.jpg'
-    with open(os.path.join(path, filname), 'wb') as file:
-      file.write(response.content)
-
-
-def get_photo_hubble(id):
-  path = 'images'
-  url = f'http://hubblesite.org/api/v3/image/{id}'
-  response = requests.get(url)
-  response.raise_for_status()
-  response = response.json()
-  image_files = response.get('image_files')
-  url_photo = f"https:{image_files[-1]['file_url']}"
-  file_extension = url_photo.split('.')[-1]
-  filname = f'{id}.{file_extension}'
-  response = requests.get(url_photo, verify=False)
-  response.raise_for_status()
-  with open(os.path.join(path, filname), 'wb') as file:
-    file.write(response.content)
-
-
+def load_img_insta(user_name, pass_word): # отправляем все фото
+    imgs = os.listdir('image2')
+    bot = Bot()
+    bot.login(username=user_name, password=pass_word)
+    for img in imgs:
+        bot.upload_photo(f'image2/{img}')
 
 def main():
-  #fetch_spacex_last_launch(path)
-  get_photo_hubble(1)
+  load_dotenv()
+  user_name = os.environ['username']
+  pass_word = os.environ['password']
+
+  list_img()
+  #insta_bot(username, password) # отправляем одно фото
+  load_img_insta(user_name, pass_word)
 
 
 if __name__ == '__main__':
