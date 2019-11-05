@@ -12,7 +12,8 @@ def get_img_habbl(name): # создаем список фото из колле�
   print(len(list_id))
   sc = len(list_id)
   path = 'images'
-  os.mkdir(path)
+  if  not os.path.exists(path):
+    os.makedirs(path)
   for id in list_id: # скачиваем картинки  с hubblesite по номеру фото
     url = f'https://hubblesite.org/api/v3/image/{id}'
     response = requests.get(url)
