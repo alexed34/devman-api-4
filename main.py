@@ -3,7 +3,7 @@ import os
 from instabot import Bot
 from dotenv import load_dotenv
 
-def list_img(): # выбираем  фото в папке, обрезаем и сохраняем
+def list_img(): 
     imgs = os.listdir('images')
     if  not os.path.exists('image2'):
         os.makedirs('image2')
@@ -18,7 +18,7 @@ def list_img(): # выбираем  фото в папке, обрезаем и 
       cropped.save(f"image2/n{img}")
 
 
-def load_img_insta(user_name, pass_word): # отправляем все фото
+def load_img_insta(user_name, pass_word): 
     imgs = os.listdir('image2')
     bot = Bot()
     bot.login(username=user_name, password=pass_word)
@@ -27,7 +27,7 @@ def load_img_insta(user_name, pass_word): # отправляем все фото
 
 def main():
   load_dotenv()
-  user_name = os.environ['username2'] # если написать 'username' то передается имя компа, непонятно почему так
+  user_name = os.environ['username2']
   pass_word = os.environ['password']
 
   #list_img()
