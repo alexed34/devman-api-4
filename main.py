@@ -16,15 +16,12 @@ def list_img(): # выбираем  фото в папке, обрезаем и 
       coordinates = (cordionate1, 0, cordionate2, height)
       cropped = image.crop(coordinates)
       cropped.save(f"image2/n{img}")
-      print(img)
 
 
 def load_img_insta(user_name, pass_word): # отправляем все фото
     imgs = os.listdir('image2')
     bot = Bot()
     bot.login(username=user_name, password=pass_word)
-
-    print('пароль')
     for img in imgs:
         bot.upload_photo(f'image2/{img}')
 
