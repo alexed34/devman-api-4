@@ -8,9 +8,7 @@ def get_img_habbl(name): # создаем список фото из колле�
   url = f'https://hubblesite.org/api/v3/images/{name}'
   response = requests.get(url).json()
   list_id = [i['id'] for i in response]
-  print(list_id)
-  print(len(list_id))
-  sc = len(list_id)
+  counter_foto = len(list_id)
   path = 'images'
   if  not os.path.exists(path):
     os.makedirs(path)
@@ -27,8 +25,8 @@ def get_img_habbl(name): # создаем список фото из колле�
     response.raise_for_status()
     with open(os.path.join(path, filname), 'wb') as file:
       file.write(response.content)
-    sc -= 1
-    print(sc) # отслеживание оставшихся фото
+    counter_foto -= 1
+    print(f'Осталось скачать: {counter_foto} фото ') # отслеживание оставшихся фото
     
 def main():
   get_img_habbl('wallpaper')
