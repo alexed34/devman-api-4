@@ -4,7 +4,7 @@ import urllib3
 urllib3.disable_warnings()
 
 
-def get_img_habbl(name): # создаем список фото из коллекции hubblesite и скачиваем их
+def get_img_habbl(name): 
   url = f'https://hubblesite.org/api/v3/images/{name}'
   response = requests.get(url).json()
   list_id = [i['id'] for i in response]
@@ -12,7 +12,7 @@ def get_img_habbl(name): # создаем список фото из колле�
   path = 'images'
   if  not os.path.exists(path):
     os.makedirs(path)
-  for id in list_id: # скачиваем картинки  с hubblesite по номеру фото
+  for id in list_id: 
     url = f'https://hubblesite.org/api/v3/image/{id}'
     response = requests.get(url)
     response.raise_for_status()
@@ -26,7 +26,7 @@ def get_img_habbl(name): # создаем список фото из колле�
     with open(os.path.join(path, filname), 'wb') as file:
       file.write(response.content)
     counter_foto -= 1
-    print(f'Осталось скачать: {counter_foto} фото ') # отслеживание оставшихся фото
+    print(f'Осталось скачать: {counter_foto} фото ') 
     
 def main():
   get_img_habbl('wallpaper')
