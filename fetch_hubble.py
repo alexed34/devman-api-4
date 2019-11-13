@@ -12,9 +12,7 @@ def get_img_habbl(name):
     response = response.json()
     if not response:
         raise requests.exceptions.HTTPError('нет данных в json обьекте')
-
     photos = [i['id'] for i in response]
-    counter_foto = len(photos)
     path = 'images'
     os.makedirs(path, exist_ok=True)
     for photo in photos:
@@ -30,8 +28,7 @@ def get_img_habbl(name):
         response.raise_for_status()
         with open(os.path.join(path, filname), 'wb') as file:
             file.write(response.content)
-        counter_foto -= 1
-        print(f'Осталось скачать: {counter_foto} фото ')
+
 
 
 def main():
