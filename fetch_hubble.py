@@ -11,7 +11,7 @@ def get_img_habbl(name):
     response.raise_for_status()
     response = response.json()
     if not response:
-        raise Exception('нет данных в json обьекте')
+        raise requests.exceptions.HTTPError('нет данных в json обьекте')
 
     photos = [i['id'] for i in response]
     counter_foto = len(photos)
