@@ -17,7 +17,7 @@ def get_img_habbl(response):
         raise Exception('нет данных в json обьекте')
     return [i['id'] for i in response]
 
-def get_photo(photo, path, response):
+def get_photo(photo, response):
     image_files = response.get('image_files')
     url_photo = f"https:{image_files[-1]['file_url']}"
     file_extension = os.path.splitext(url_photo)[1]
@@ -45,7 +45,7 @@ def main():
     url_image = 'https://hubblesite.org/api/v3/image/'
     for photo in photos_name:
         response = get_response(url_image, photo)
-        date = get_photo(photo, path, response)
+        date = get_photo(photo, response)
         write_photo(date, path)
 
 
