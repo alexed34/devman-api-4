@@ -4,28 +4,34 @@ import urllib3
 
 urllib3.disable_warnings()
 
-
-def fetch_spacex_last_launch():
-    path = 'images'
-    url = 'https://api.spacexdata.com/v3/launches/latest?filter=links/flickr_images'
+def get_response(url, name):
     response = requests.get(url)
     response.raise_for_status()
     response = response.json()
-    links = response.get('links')
+    return response.get(name)
+
+
+def write_photo(date, path):
+    with open(os.path.join(path, date['filname']), 'wb') as file:
+        file.write(date['response'].content)
+
+
+def main():
+    path = 'images'
+    os.makedirs(path, exist_ok=True)
+    url = 'https://api.spacexdata.com/v3/launches/latest?filter=links/flickr_images'
+    name = 'links'
+    links = get_response(url, name)
     flickr_images = links.get('flickr_images')
     if not flickr_images:
         raise requests.exceptions.HTTPError('в последнем запуске нет фото ')
-    os.makedirs(path, exist_ok=True)
     for number, url in enumerate(flickr_images, 1):
         response = requests.get(url)
         response.raise_for_status()
         filname = f'spacex{number}.jpg'
-        with open(os.path.join(path, filname), 'wb') as file:
-            file.write(response.content)
-
-
-def main():
-    fetch_spacex_last_launch()
+        date = {'response': response,
+                'filname': filname}
+        write_photo(date, path)
 
 
 if __name__ == '__main__':
